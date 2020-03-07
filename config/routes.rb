@@ -1,3 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace 'api' do
+    namespace 'v1' do
+      resources :balances
+      resources :bills
+      resources :coins
+      resources :products
+      resources :slots
+      resources :stocks
+      resources :vending_machines
+    end
+  end
 end
