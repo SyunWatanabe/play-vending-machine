@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2020_02_09_090355) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "balances", force: :cascade do |t|
     t.integer "final_amount", null: false
-    t.integer "vending_machine_id"
+    t.bigint "vending_machine_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vending_machine_id"], name: "index_balances_on_vending_machine_id"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
 
   create_table "bills", force: :cascade do |t|
     t.integer "type", null: false
-    t.integer "balance_id"
+    t.bigint "balance_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["balance_id"], name: "index_bills_on_balance_id"
@@ -30,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
 
   create_table "coins", force: :cascade do |t|
     t.integer "type", null: false
-    t.integer "balance_id"
+    t.bigint "balance_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["balance_id"], name: "index_coins_on_balance_id"
@@ -40,7 +43,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
     t.string "name", null: false
     t.integer "price", null: false
     t.string "maker", null: false
-    t.integer "slot_id"
+    t.bigint "slot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slot_id"], name: "index_products_on_slot_id"
@@ -48,15 +51,15 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
 
   create_table "slots", force: :cascade do |t|
     t.string "temp"
-    t.integer "vending_machine_id"
+    t.bigint "vending_machine_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["vending_machine_id"], name: "index_slots_on_vending_machine_id"
   end
 
   create_table "stocks", force: :cascade do |t|
-    t.integer "slot_id"
-    t.integer "product_id"
+    t.bigint "slot_id"
+    t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_stocks_on_product_id"
@@ -70,4 +73,11 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "balances", "vending_machines"
+  add_foreign_key "bills", "balances"
+  add_foreign_key "coins", "balances"
+  add_foreign_key "products", "slots"
+  add_foreign_key "slots", "vending_machines"
+  add_foreign_key "stocks", "products"
+  add_foreign_key "stocks", "slots"
 end

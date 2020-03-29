@@ -2,7 +2,7 @@
 #
 # Table name: vending_machines
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  maker      :string           not null
 #  max_slot   :integer
 #  created_at :datetime         not null
