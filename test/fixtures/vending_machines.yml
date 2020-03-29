@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: vending_machines
+#
+#  id         :bigint           not null, primary key
+#  maker      :string           not null
+#  max_slot   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  maker: MyString
+  max_slot: 1
+
+two:
+  maker: MyString
+  max_slot: 1
