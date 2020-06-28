@@ -6,11 +6,8 @@ import './VendingMachine.scss';
 import mobileCheck from './mobileCheck';
 
 export const DepositMoneyContext = React.createContext();
-const VendingMachine = () => {
-  const ENDPOINT =
-    process.env.REACT_APP_ENDPOINT ||
-    'https://play-vending-machine.herokuapp.com';
 
+const VendingMachine = () => {
   const [products, setProducts] = useState([]);
   const [totalSales, setTotalSales] = useState([]);
   const [eachSales, setEachSales] = useState([]);
@@ -20,7 +17,9 @@ const VendingMachine = () => {
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch(`${ENDPOINT}/api/v1/products`);
+      const response = await fetch(
+        'https://play-vending-machine.herokuapp.com/api/v1/products'
+      );
       const json = await response.json();
       setProducts(json);
     }
@@ -30,7 +29,9 @@ const VendingMachine = () => {
 
   useEffect(() => {
     async function fetchTotalSales() {
-      const response = await fetch(`${ENDPOINT}/api/v1/purchases/total_sales`);
+      const response = await fetch(
+        'https://play-vending-machine.herokuapp.com/api/v1/purchases/total_sales'
+      );
       const json = await response.json();
       const sales = json.total_sales;
       const counts = json.total_counts;
@@ -41,7 +42,9 @@ const VendingMachine = () => {
 
   useEffect(() => {
     async function fetchEachSales() {
-      const response = await fetch(`${ENDPOINT}/api/v1/purchases/each_sales`);
+      const response = await fetch(
+        'https://play-vending-machine.herokuapp.com/api/v1/purchases/each_sales'
+      );
       const json = await response.json();
       const sales = json.each_sales;
       setEachSales(sales);
@@ -60,7 +63,10 @@ const VendingMachine = () => {
 
   const handlePurchase = (product_id, slot_id, purchase_price) => {
     const data = { product_id, slot_id, purchase_price };
-    postData(`${ENDPOINT}/api/v1/purchases`, data);
+    postData(
+      `https://play-vending-machine.herokuapp.com/api/v1/purchases`,
+      data
+    );
     setTimeout(() => {
       setMoney(depositMoney - purchase_price);
       // wait for 3s to keep showing buyable sign(blue color) until purchase action is finished
