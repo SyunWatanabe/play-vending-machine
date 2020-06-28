@@ -26,5 +26,5 @@ test:
   database: vm_test
 
 production:
-  <<: *default
-  database: vm_production
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5

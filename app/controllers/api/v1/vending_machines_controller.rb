@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class VendingMachinesController < ApplicationController
-      before_action :set_vending_machine, only: [:show, :update, :destroy]
+      before_action :set_vending_machine, only: %i[show update destroy]
 
       def index
         vending_machines = VendingMachine.all

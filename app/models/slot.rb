@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: slots
@@ -19,5 +21,6 @@
 class Slot < ApplicationRecord
   has_one :product
   has_many :stocks
+  has_many :purchases
   belongs_to :vending_machine
 end

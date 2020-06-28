@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_090355) do
+ActiveRecord::Schema.define(version: 2020_06_20_132010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,16 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
     t.index ["slot_id"], name: "index_products_on_slot_id"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "slot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "purchase_price", null: false
+    t.index ["product_id"], name: "index_purchases_on_product_id"
+    t.index ["slot_id"], name: "index_purchases_on_slot_id"
+  end
+
   create_table "slots", force: :cascade do |t|
     t.string "temp"
     t.bigint "vending_machine_id"
@@ -77,6 +87,8 @@ ActiveRecord::Schema.define(version: 2020_02_09_090355) do
   add_foreign_key "bills", "balances"
   add_foreign_key "coins", "balances"
   add_foreign_key "products", "slots"
+  add_foreign_key "purchases", "products"
+  add_foreign_key "purchases", "slots"
   add_foreign_key "slots", "vending_machines"
   add_foreign_key "stocks", "products"
   add_foreign_key "stocks", "slots"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -5,7 +7,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
 
 Slot.create!(
   [
@@ -90,7 +91,7 @@ Product.create!(
       maker: 'cocacola',
       slot_id: 6
     },
-       {
+    {
       name: 'コーンポータージュ',
       price: 120,
       maker: 'cocacola',

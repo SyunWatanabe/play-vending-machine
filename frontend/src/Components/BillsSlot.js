@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const BillsSlot = ({ onMoneyChange }) => {
-  let [deposit_bills, setBills] = useState(0);
+  // let [deposit_bills, setBills] = useState(0);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let selected = parseInt(
       document.bills.kind[document.bills.kind.selectedIndex].value
@@ -12,9 +12,9 @@ const BillsSlot = ({ onMoneyChange }) => {
   };
 
   return (
-    <form onClick={handleSubmit} name="bills">
+    <form onSubmit={handleSubmit} name="bills">
       <select name="kind">
-        <option value="0">紙幣を投入してください</option>
+        <option value="0">0</option>
         <option value="1000">1000</option>
       </select>
       <button type="submit">投入</button>

@@ -1,0 +1,52 @@
+.p-vm {
+  &__body {
+    width: 50%;
+    height: 800px;
+    margin: 0 auto;
+    background: #fa9e9e;
+    border-radius: 10px;
+  }
+
+  &__products-display {
+    width: 80%;
+    height: 300px;
+    top: 5%;
+    background: #ffffff;
+    border-radius: 28px;
+    margin: 20px auto;
+    padding-top: 30px;
+    position: relative;
+  }
+
+  &__others {
+    margin-top: 15%;
+  }
+
+  &__info-display {
+    background-color: cyan;
+  }
+
+  &__money-display {
+    background-color: white;
+  }
+
+  &__bills-slot {
+    background-color: darkcyan;
+  }
+
+  &__coins-slot {
+    background-color: orange;
+  }
+
+  &__return-btn {
+    background-color: lightgreen;
+  }
+
+  &__return-slot {
+    background-color: pink;
+  }
+
+  &__dispensing-slot {
+    background-color: purple;
+  }
+}
