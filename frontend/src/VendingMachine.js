@@ -20,7 +20,7 @@ function VendingMachine() {
   useEffect(() => {
     async function fetchProducts() {
       const response = await fetch(
-        'https://play-vending-machine.herokuapp.com//api/v1/products'
+        'https://play-vending-machine.herokuapp.com/api/v1/products'
       );
       const json = await response.json();
       setProducts(json);
@@ -32,7 +32,7 @@ function VendingMachine() {
   useEffect(() => {
     async function fetchTotalSales() {
       const response = await fetch(
-        'https://play-vending-machine.herokuapp.com//api/v1/purchases/total_sales'
+        'https://play-vending-machine.herokuapp.com/api/v1/purchases/total_sales'
       );
       const json = await response.json();
       const sales = json.total_sales;
@@ -45,7 +45,7 @@ function VendingMachine() {
   useEffect(() => {
     async function fetchEachSales() {
       const response = await fetch(
-        'https://play-vending-machine.herokuapp.com//api/v1/purchases/each_sales'
+        'https://play-vending-machine.herokuapp.com/api/v1/purchases/each_sales'
       );
       const json = await response.json();
       const sales = json.each_sales;
@@ -66,7 +66,7 @@ function VendingMachine() {
   const handlePurchase = (product_id, slot_id, purchase_price) => {
     const data = { product_id, slot_id, purchase_price };
     postData(
-      `https://play-vending-machine.herokuapp.com//api/v1/purchases`,
+      `https://play-vending-machine.herokuapp.com/api/v1/purchases`,
       data
     );
     setTimeout(() => {
