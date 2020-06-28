@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import SalesReport from './components/SalesReport';
-import MainContainer from './components/MainContainer';
-import MobileView from './components/MobileView';
+import SalesReport from './Components/SalesReport';
+import MainContainer from './Components/MainContainer';
+import MobileView from './Components/MobileView';
 import './VendingMachine.scss';
 import mobileCheck from './mobileCheck';
 
-console.log('mobileCheck', mobileCheck());
-
 export const DepositMoneyContext = React.createContext();
+const VendingMachine = () => {
+  const ENDPOINT =
+    process.env.REACT_APP_ENDPOINT ||
+    'https://play-vending-machine.herokuapp.com';
 
-function VendingMachine() {
   const [products, setProducts] = useState([]);
   const [totalSales, setTotalSales] = useState([]);
   const [eachSales, setEachSales] = useState([]);
@@ -19,9 +20,7 @@ function VendingMachine() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch(
-        'https://play-vending-machine.herokuapp.com/api/v1/products'
-      );
+      const response = await fetch(`${ENDPOINT}/api/v1/products`);
       const json = await response.json();
       setProducts(json);
     }
@@ -31,9 +30,7 @@ function VendingMachine() {
 
   useEffect(() => {
     async function fetchTotalSales() {
-      const response = await fetch(
-        'https://play-vending-machine.herokuapp.com/api/v1/purchases/total_sales'
-      );
+      const response = await fetch(`${ENDPOINT}/api/v1/purchases/total_sales`);
       const json = await response.json();
       const sales = json.total_sales;
       const counts = json.total_counts;
@@ -44,9 +41,7 @@ function VendingMachine() {
 
   useEffect(() => {
     async function fetchEachSales() {
-      const response = await fetch(
-        'https://play-vending-machine.herokuapp.com/api/v1/purchases/each_sales'
-      );
+      const response = await fetch(`${ENDPOINT}/api/v1/purchases/each_sales`);
       const json = await response.json();
       const sales = json.each_sales;
       setEachSales(sales);
@@ -65,10 +60,7 @@ function VendingMachine() {
 
   const handlePurchase = (product_id, slot_id, purchase_price) => {
     const data = { product_id, slot_id, purchase_price };
-    postData(
-      `https://play-vending-machine.herokuapp.com/api/v1/purchases`,
-      data
-    );
+    postData(`${ENDPOINT}/api/v1/purchases`, data);
     setTimeout(() => {
       setMoney(depositMoney - purchase_price);
       // wait for 3s to keep showing buyable sign(blue color) until purchase action is finished
@@ -121,7 +113,7 @@ function VendingMachine() {
       BuyableProductsId.map((id) => {
         PurchaseBtns[id - 1].disabled = false;
         PurchaseBtns[id - 1].classList =
-          'p-vm_purchase-btn p-vm__purchase-btn--buyable';
+          'p-vm__purchase-btn p-vm__purchase-btn--buyable';
       });
 
       returnBtn.style.pointerEvents = 'auto';
@@ -155,5 +147,5 @@ function VendingMachine() {
       </div>
     </DepositMoneyContext.Provider>
   );
-}
+};
 export default VendingMachine;
