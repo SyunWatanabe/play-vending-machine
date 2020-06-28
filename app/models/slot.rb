@@ -21,5 +21,6 @@
 class Slot < ApplicationRecord
   has_one :product
   has_many :stocks
+  has_many :purchases
   belongs_to :vending_machine
 end

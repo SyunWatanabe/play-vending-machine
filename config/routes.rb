@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  namespace 'api' do
+  namespace 'api', format: 'json' do
     namespace 'v1' do
-      resources :balances
-      resources :bills
-      resources :coins
-      resources :products
-      resources :slots
-      resources :stocks
-      resources :vending_machines
+      resources :products, only: [:index]
+      resources :purchases, only: %i[create total_sales]
+      get '/purchases/total_sales', to: 'purchases#total_sales'
+      get '/purchases/each_sales', to: 'purchases#each_sales'
     end
   end
 end

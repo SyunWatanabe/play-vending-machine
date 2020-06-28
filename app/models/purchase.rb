@@ -2,25 +2,25 @@
 
 # == Schema Information
 #
-# Table name: products
+# Table name: purchases
 #
 #  id         :bigint           not null, primary key
-#  maker      :string           not null
-#  name       :string           not null
-#  price      :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  product_id :bigint
 #  slot_id    :bigint
 #
 # Indexes
 #
-#  index_products_on_slot_id  (slot_id)
+#  index_purchases_on_product_id  (product_id)
+#  index_purchases_on_slot_id     (slot_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (product_id => products.id)
 #  fk_rails_...  (slot_id => slots.id)
 #
-class Product < ApplicationRecord
+class Purchase < ApplicationRecord
+  belongs_to :product
   belongs_to :slot
-  has_many :purchases
 end

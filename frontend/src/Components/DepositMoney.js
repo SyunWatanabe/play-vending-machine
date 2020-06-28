@@ -1,25 +1,39 @@
-import React, { useState } from "react";
-import CoinsSlot from "./CoinsSlot";
-import BillsSlot from "./BillsSlot";
-import MoneyDisplay from "./MoneyDisplay";
+import React, { useState } from 'react';
+import CoinsSlot from './CoinsSlot';
+import BillsSlot from './BillsSlot';
+import MoneyDisplay from './MoneyDisplay';
 
-const DepositMoney = () => {
-  let [deposit_money, setMoney] = useState(0);
-
-  const handleMoneyChange = selected => {
-    setMoney(deposit_money + selected);
-  };
-
+const DepositMoney = ({
+  depositMoney,
+  handleMoneyChange,
+  handleReturnMoney,
+}) => {
   return (
-    <div>
-      <div className="p-vm__money-display">
-        {deposit_money}
+    <div className="p-vm__money-features-container">
+      <div className="p-vm__money-display-container">
+        <MoneyDisplay money={depositMoney} />
+        <a
+          id="return-btn"
+          href="javascript:void(0)"
+          className="p-vm__btn-return"
+          onClick={handleReturnMoney}
+        >
+          BACK
+        </a>
       </div>
-      <div className="p-vm__bills-slot">
-        <BillsSlot onMoneyChange={handleMoneyChange}></BillsSlot>
-      </div>
-      <div className="p-vm__coins-slot">
-        <CoinsSlot onMoneyChange={handleMoneyChange}></CoinsSlot>
+      <div className="p-vm__money-slots">
+        <div className="p-vm__bills-container">
+          硬貨
+          <div className="p-vm__coins-slot">
+            <CoinsSlot onMoneyChange={handleMoneyChange}></CoinsSlot>
+          </div>
+        </div>
+        <div className="p-vm__bills-container">
+          紙幣
+          <div className="p-vm__bills-slot">
+            <BillsSlot onMoneyChange={handleMoneyChange}></BillsSlot>
+          </div>
+        </div>
       </div>
     </div>
   );
