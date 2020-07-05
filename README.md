@@ -1,24 +1,5 @@
-# README
+# Let's Play Vending Machine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+https://play-vending-machine.web.app/
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![play-vending-machine](https://github.com/SyunWatanabe/play-vending-machine/blob/master/frontend/public/play-vending-machine.gif)
