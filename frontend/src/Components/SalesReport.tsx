@@ -1,15 +1,35 @@
 import React from 'react';
 
-const SalesReport = ({ totalSales, eachSales, purchasedProductId }) => {
-  const cnameEach = (index) => {
+type Props = {
+  totalSales: TotalSales
+  eachSales: EachSales
+  purchasedProductId: number
+}
+
+type EachSales = Sales[]
+
+type Sales = {
+  id: number;
+  name: string;
+  sales: number;
+  counts: number;
+};
+
+type TotalSales = {
+  total_sales: number;
+  total_counts: number;
+};
+
+const SalesReport = (props: Props) => {
+  const cnameEach = (index: number): string => {
     let cn = '';
-    if (index === purchasedProductId - 1) {
+    if (index === props.purchasedProductId - 1) {
       cn = 'p-vm__sales-purchaesd';
     }
     return cn;
   };
 
-  const cnameTotal = (id) => {
+  const cnameTotal = (id: string | number): string => {
     let cn = '';
     if (id !== '') {
       cn = 'p-vm__sales-purchaesd';
@@ -26,10 +46,10 @@ const SalesReport = ({ totalSales, eachSales, purchasedProductId }) => {
             <th>総売上(円)</th>
             <th>総販売数(本)</th>
           </tr>
-          <tr className={cnameTotal(purchasedProductId)}>
+          <tr className={cnameTotal(props.purchasedProductId)}>
             <td>合計</td>
-            <td>{totalSales.total_sales}</td>
-            <td>{totalSales.total_counts}</td>
+            <td>{props.totalSales.total_sales}</td>
+            <td>{props.totalSales.total_counts}</td>
           </tr>
         </tbody>
       </table>
@@ -40,7 +60,7 @@ const SalesReport = ({ totalSales, eachSales, purchasedProductId }) => {
             <th>売上(円)</th>
             <th>販売数(本)</th>
           </tr>
-          {eachSales.map((sales, index) => (
+          {props.eachSales.map((sales: Sales, index: number) => (
             <tr key={sales.id} className={cnameEach(index)}>
               <td>{sales.name}</td>
               <td>{sales.sales}</td>
