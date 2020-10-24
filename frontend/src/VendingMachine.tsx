@@ -1,17 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import Product from './Components/Product';
 import SalesReport from './Components/SalesReport';
 import MainContainer from './Components/MainContainer';
 import MobileView from './Components/MobileView';
 import './VendingMachine.scss';
 import mobileCheck from './mobileCheck';
 
-export const DepositMoneyContext = React.createContext();
+export const DepositMoneyContext = React.createContext(0);
+
+type ProductType = React.ComponentProps<typeof Product>['product'];
+type TotalSales = React.ComponentProps<typeof SalesReport>['totalSales'];
 
 const VendingMachine = () => {
-  const [products, setProducts] = useState([]);
-  const [totalSales, setTotalSales] = useState([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [totalSales, setTotalSales] = useState<TotalSales>({
+    total_sales: 0,
+    total_counts: 0,
+  });
   const [eachSales, setEachSales] = useState([]);
-  const [purchasedProductId, setPurchasedProductId] = useState('');
+  const [purchasedProductId, setPurchasedProductId] = useState<string | number>(
+    0
+  );
   const [depositMoney, setMoney] = useState(0);
   const [change, setChange] = useState(0);
 
@@ -32,10 +41,14 @@ const VendingMachine = () => {
       const response = await fetch(
         'https://play-vending-machine.herokuapp.com/api/v1/purchases/total_sales'
       );
-      const json = await response.json();
-      const sales = json.total_sales;
-      const counts = json.total_counts;
-      setTotalSales({ total_sales: sales, total_counts: counts });
+      const json: TotalSales = await response.json();
+
+      if (typeof json !== undefined) {
+        const sales: number = json.total_sales;
+        const counts: number = json.total_counts;
+        const obj = { total_sales: sales, total_counts: counts };
+        setTotalSales(obj);
+      }
     }
     fetchTotalSales();
   }, [purchasedProductId]);
@@ -52,8 +65,10 @@ const VendingMachine = () => {
     fetchEachSales();
   }, [purchasedProductId]);
 
-  const handleMoneyChange = (selected) => {
-    setMoney(depositMoney + selected);
+  const handleMoneyChange = (selected: string | number) => {
+    if (typeof selected === 'number') {
+      setMoney(depositMoney + selected);
+    } else throw new Error('not number');
   };
 
   const handleReturnMoney = () => {
@@ -61,7 +76,11 @@ const VendingMachine = () => {
     setChange(change + depositMoney);
   };
 
-  const handlePurchase = (product_id, slot_id, purchase_price) => {
+  const handlePurchase = (
+    product_id: number,
+    slot_id: number,
+    purchase_price: number
+  ) => {
     const data = { product_id, slot_id, purchase_price };
     postData(
       `https://play-vending-machine.herokuapp.com/api/v1/purchases`,
@@ -78,7 +97,7 @@ const VendingMachine = () => {
     setChange(0);
   };
 
-  function postData(url, data) {
+  function postData(url: string, data: any) {
     return fetch(url, {
       method: 'POST',
       mode: 'cors',
@@ -89,26 +108,26 @@ const VendingMachine = () => {
     }).then((response) => response.json());
   }
 
-  function purchaseProduct(productId, purchasePrice) {
+  function purchaseProduct(productId: number, purchasePrice: number) {
     setPurchasedProductId(productId);
 
     const returnBtn = document.getElementById('return-btn');
     // stop click action
-    returnBtn.style.pointerEvents = 'none';
+    if (returnBtn !== null) returnBtn.style.pointerEvents = 'none';
 
     // change HTML collection to Array for map
-    let PurchaseBtns = Array.from(
+    const PurchaseBtns = (Array.from(
       document.getElementsByClassName('p-vm__purchase-btn')
-    );
+    ) as unknown) as HTMLButtonElement[];
 
-    PurchaseBtns.map((purchaseBtn, index) => {
-      purchaseBtn.disabled = true;
+    PurchaseBtns.map((purchaseBtn: HTMLButtonElement, index: number) => {
+      let Btn = purchaseBtn;
+      Btn.disabled = true;
 
       if (index == productId - 1) {
-        purchaseBtn.classList =
-          'p-vm__purchase-btn p-vm__purchase-btn--buyable';
+        Btn.classList.value = 'p-vm__purchase-btn p-vm__purchase-btn--buyable';
       } else {
-        purchaseBtn.classList = 'p-vm__purchase-btn';
+        Btn.classList.value = 'p-vm__purchase-btn';
       }
     });
 
@@ -118,17 +137,17 @@ const VendingMachine = () => {
         .map((product) => product.id);
       BuyableProductsId.map((id) => {
         PurchaseBtns[id - 1].disabled = false;
-        PurchaseBtns[id - 1].classList =
+        PurchaseBtns[id - 1].classList.value =
           'p-vm__purchase-btn p-vm__purchase-btn--buyable';
       });
 
-      returnBtn.style.pointerEvents = 'auto';
+      if (returnBtn !== null) returnBtn.style.pointerEvents = 'auto';
       setPurchasedProductId('');
     }, 2000); // wait for css flash animation
   }
 
-  const firstLine = products.filter((product, index) => index < 5);
-  const secondLine = products.filter((product, index) => index > 4);
+  const firstLine = products.filter((_, index) => index < 5);
+  const secondLine = products.filter((_, index) => index > 4);
   return mobileCheck() == true ? (
     <MobileView />
   ) : (

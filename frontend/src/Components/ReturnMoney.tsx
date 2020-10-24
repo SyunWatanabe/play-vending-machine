@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const ReturnMoney = ({ change, handleCollectChange }) => {
+type Props = {
+  change: number;
+  handleCollectChange: handleCollectChangeFunction;
+};
+
+type handleCollectChangeFunction = () => void;
+
+const ReturnMoney: FC<Props> = ({ change, handleCollectChange }) => {
   return (
     <>
       <div className="p-vm__dispensing-slot">

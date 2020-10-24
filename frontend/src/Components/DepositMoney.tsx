@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import CoinsSlot from './CoinsSlot';
 import BillsSlot from './BillsSlot';
 import MoneyDisplay from './MoneyDisplay';
 
-const DepositMoney = ({
+type Props = {
+  depositMoney: number;
+  handleMoneyChange: (money: React.ReactText) => void;
+  handleReturnMoney: () => void;
+};
+
+const DepositMoney: FC<Props> = ({
   depositMoney,
   handleMoneyChange,
   handleReturnMoney,

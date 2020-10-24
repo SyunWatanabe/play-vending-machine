@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const productName = (name) => {
+type Props = {
+  product: Product;
+};
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  maker: string;
+  slot_id: number;
+  created_at: string;
+  updated_at: string;
+};
+
+const productName = (name: string): string => {
   let pName = name;
   if (name == 'コーンポータージュ') pName = 'コンポタ';
   return pName;
 };
 
-const productTemp = (id) => {
+const productTemp = (id: number): string => {
   let className = 'p-vm__product-hot';
   if (id < 7) return 'p-vm__product-cold';
   return className;
 };
 
-const Product = ({ product }) => {
+const Product: FC<Props> = ({ product }) => {
   return (
     <>
       <img

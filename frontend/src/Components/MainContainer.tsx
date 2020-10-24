@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { FC } from 'react';
+import Product from './Product';
 import ProductDisplay from './ProductDisplay';
 import DepositMoney from './DepositMoney';
 import ReturnMoney from './ReturnMoney';
 import ReturnSlot from './ReturnSlot';
 import '../../src/VendingMachine.scss';
 
-const MainContainer = ({
+type Props = {
+  firstLine: ProductType[];
+  secondLine: ProductType[];
+  depositMoney: number;
+  change: number;
+  purchasedProductId: string | number;
+  handleMoneyChange: (money: React.ReactText) => void;
+  handleReturnMoney: () => void;
+  handlePurchase: (
+    product_id: number,
+    slot_id: number,
+    purchase_price: number
+  ) => void;
+  handleCollectChange: () => void;
+};
+
+type ProductType = React.ComponentProps<typeof Product>['product'];
+
+const MainContainer: FC<Props> = ({
   firstLine,
   secondLine,
   depositMoney,

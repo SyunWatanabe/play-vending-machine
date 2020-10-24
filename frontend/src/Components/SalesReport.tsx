@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 type Props = {
-  totalSales: TotalSales
-  eachSales: EachSales
-  purchasedProductId: number
-}
-
-type EachSales = Sales[]
+  totalSales: TotalSales;
+  eachSales: Sales[];
+  purchasedProductId: string | number;
+};
 
 type Sales = {
   id: number;
@@ -20,10 +18,17 @@ type TotalSales = {
   total_counts: number;
 };
 
-const SalesReport = (props: Props) => {
+const SalesReport: FC<Props> = ({
+  totalSales,
+  eachSales,
+  purchasedProductId,
+}) => {
   const cnameEach = (index: number): string => {
     let cn = '';
-    if (index === props.purchasedProductId - 1) {
+    if (
+      typeof purchasedProductId === 'number' &&
+      index === purchasedProductId - 1
+    ) {
       cn = 'p-vm__sales-purchaesd';
     }
     return cn;
@@ -31,7 +36,8 @@ const SalesReport = (props: Props) => {
 
   const cnameTotal = (id: string | number): string => {
     let cn = '';
-    if (id !== '') {
+    console.log(id);
+    if (id) {
       cn = 'p-vm__sales-purchaesd';
     }
     return cn;
@@ -46,10 +52,10 @@ const SalesReport = (props: Props) => {
             <th>総売上(円)</th>
             <th>総販売数(本)</th>
           </tr>
-          <tr className={cnameTotal(props.purchasedProductId)}>
+          <tr className={cnameTotal(purchasedProductId)}>
             <td>合計</td>
-            <td>{props.totalSales.total_sales}</td>
-            <td>{props.totalSales.total_counts}</td>
+            <td>{totalSales.total_sales}</td>
+            <td>{totalSales.total_counts}</td>
           </tr>
         </tbody>
       </table>
@@ -60,7 +66,7 @@ const SalesReport = (props: Props) => {
             <th>売上(円)</th>
             <th>販売数(本)</th>
           </tr>
-          {props.eachSales.map((sales: Sales, index: number) => (
+          {eachSales.map((sales: Sales, index: number) => (
             <tr key={sales.id} className={cnameEach(index)}>
               <td>{sales.name}</td>
               <td>{sales.sales}</td>
